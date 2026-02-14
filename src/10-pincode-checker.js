@@ -58,21 +58,37 @@
  *   isTruthy("")                 // => false
  */
 export function getDataType(value) {
-  // Your code here
+  // 1. Handle the "null" bug in JS (typeof null returns 'object')
+  if (value === null) {
+    return "null";
+  }
+  
+  // 2. Handle Arrays (typeof [] returns 'object')
+  if (Array.isArray(value)) {
+    return "array";
+  }
+
+  // 3. Return the standard type for everything else
+  return typeof value;
 }
 
 export function isValidParcelWeight(weight) {
-  // Your code here
+  // Check if it is a number type AND finite (not Infinity), AND positive
+  return Number.isFinite(weight) && weight > 0;
 }
 
 export function isWholeNumber(value) {
-  // Your code here
+  // Checks if the value is an integer (no decimals)
+  return Number.isInteger(value);
 }
 
 export function isNotANumber(value) {
-  // Your code here
+  // Checks strictly if the value is the special value NaN
+  // Unlike global isNaN(), this does NOT convert strings to numbers first
+  return Number.isNaN(value);
 }
 
 export function isTruthy(value) {
-  // Your code here
+  // Converts any value to its boolean equivalent
+  return Boolean(value);
 }

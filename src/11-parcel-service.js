@@ -50,23 +50,55 @@
  *   jsonToParcel('{"id":"P001"}')        // => {id:"P001"}
  *   convertToString(42)                   // => "42"
  *   stringToChars("Dak")                  // => ["D", "a", "k"]
- */
+
+**/
 export function parcelToJSON(parcel) {
-  // Your code here
+  // Check specifically for undefined first (JSON.stringify returns undefined for it)
+  if (parcel === undefined) {
+    return "";
+  }
+
+  try {
+    // Attempt to convert object to string
+    return JSON.stringify(parcel);
+  } catch (error) {
+    // Captures circular references or other stringify errors
+    return "";
+  }
 }
 
 export function jsonToParcel(jsonString) {
-  // Your code here
+  // Input validation: Must be a string
+  if (typeof jsonString !== "string") {
+    return null;
+  }
+
+  try {
+    // Attempt to parse string back to object
+    return JSON.parse(jsonString);
+  } catch (error) {
+    // Captures syntax errors (malformed JSON)
+    return null;
+  }
 }
 
 export function convertToString(value) {
-  // Your code here
+  // Explicitly converts null to "null" and undefined to "undefined"
+  return String(value);
 }
 
 export function convertToNumber(value) {
-  // Your code here
+  // Converts value to number.
+  // Note: Empty string "" becomes 0, "hello" becomes NaN.
+  return Number(value);
 }
 
 export function stringToChars(str) {
-  // Your code here
+  // Check if input is actually a string before converting
+  if (typeof str !== "string") {
+    return [];
+  }
+  
+  // Array.from handles emoji/unicode characters better than .split('')
+  return Array.from(str);
 }
